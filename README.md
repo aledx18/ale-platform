@@ -1,7 +1,6 @@
-# ale-platform
+# authkit
 
-Monorepo privado con módulos reutilizables (agnósticos de framework) para usar
-como base de futuros proyectos.
+Sistema completo de autenticación modular y agnóstico de framework.
 
 ## Setup local
 
@@ -12,7 +11,10 @@ bun install
 ## Comandos
 
 ```bash
-bun run lint          # revisa el código con Biome
+bun run build          # buildea todos los paquetes (core → auth)
+bun run dev            # buildea y ejecuta lab
+bun run typecheck      # verifica tipos con tsc --build
+bun run lint           # revisa el código con Biome
 bun run lint:fix       # corrige lo que se pueda automáticamente
 bun run format         # formatea todo el repo
 ```
@@ -22,14 +24,17 @@ bun run format         # formatea todo el repo
 ```
 packages/
   core/     # lógica de negocio pura, sin dependencias de framework
+  auth/     # módulo de autenticación (depende de core)
 apps/
-  (vacío por ahora)
+  lab/      # playground para testear módulos
 ```
 
 Cada paquete nuevo dentro de `packages/` debe:
-1. Tener su propio `package.json` con nombre `@ale-platform/<nombre>`.
+1. Tener su propio `package.json` con nombre `@aledx18/<nombre>`.
 2. Tener un `tsconfig.json` que haga `"extends": "../../tsconfig.base.json"`.
-3. Exportar todo lo público desde `src/index.ts`.
+3. Agregar `"references"` en su `tsconfig.json` si depende de otros paquetes.
+4. Agregarlo al root `tsconfig.json` en `"references"`.
+5. Exportar todo lo público desde `src/index.ts`.
 
 ## Usar un paquete dentro de este mismo repo
 
@@ -39,7 +44,7 @@ lo necesita:
 ```json
 {
   "dependencies": {
-    "@ale-platform/core": "workspace:*"
+    "@aledx18/core": "workspace:*"
   }
 }
 ```
@@ -67,19 +72,18 @@ Bun resuelve `workspace:*` con un symlink local, sin tocar la red.
 En el repo externo, agregá un `.npmrc`:
 
 ```
-@ale-platform:registry=https://npm.pkg.github.com
+@aledx18:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
 Y luego:
 
 ```bash
-bun add @ale-platform/core
+bun add @aledx18/core
 ```
 
 ## Pendiente / a decidir más adelante
 
-- [ ] `ui` (packages/ui) — decidir framework
-- [ ] `apps/playground` — app para testear todos los módulos juntos
+- [ ] `packages/ui` — decidir framework
 - [ ] `packages/db` — cliente de PostgreSQL compartido (Drizzle o Prisma)
-- [ ] `packages/forms`, `packages/admin`
+- [ ] `packages/admin` — panel de administración

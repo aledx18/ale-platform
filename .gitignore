@@ -5,3 +5,8 @@ build
 *.tsbuildinfo
 .env
 .env.local
+
+# Build artifacts accidentally generated in src/
+src/**/*.js
+src/**/*.d.ts
+src/**/*.d.ts.map

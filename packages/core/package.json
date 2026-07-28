@@ -6,7 +6,7 @@
   "main": "./dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aledx18/ale-platform.git"
+    "url": "git+https://github.com/aledx18/authkit.git"
   },
   "types": "./dist/index.d.ts",
   "files": [

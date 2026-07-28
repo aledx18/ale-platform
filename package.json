@@ -1,5 +1,5 @@
 {
-  "name": "ale-platform",
+  "name": "authkit",
   "private": true,
   "version": "0.0.0",
   "workspaces": [
@@ -8,13 +8,16 @@
   ],
   "scripts": {
     "lint": "biome check .",
+    "build": "bun run --filter='@aledx18/core' build && bun run --filter='@aledx18/auth' build",
+    "dev": "bun run build && bun run --filter='@aledx18/lab' start",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
-    "typecheck": "bun run --filter='*' typecheck"
+    "typecheck": "tsc --build"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.5",
     "@changesets/cli": "^2.31.1",
+    "@types/node": "^26.1.2",
     "typescript": "^7.0.2"
   }
 }
