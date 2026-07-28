@@ -1,6 +1,6 @@
 {
   "name": "@aledx18/core",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Lógica de negocio agnóstica de framework",
   "type": "module",
   "main": "./dist/index.js",
