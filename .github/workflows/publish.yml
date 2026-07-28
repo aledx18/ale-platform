@@ -26,56 +26,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@aledx18'
 
-      - name: Create .npmrc
-        run: |
-          cat > ~/.npmrc <<EOF
-          @aledx18:registry=https://npm.pkg.github.com
-          //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
-          always-auth=true
-          EOF
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-
+      # Al usar bun install en la raíz, se respetan los workspaces
       - name: Install dependencies
         run: bun install
 
       - name: Build packages
         run: bun run --filter="./packages/*" build
 
-      # ----- DIAGNÓSTICO (puedes borrarlo cuando funcione) -----
-
-      - name: Show npm configuration
-        run: |
-          echo "===== ~/.npmrc ====="
-          cat ~/.npmrc || true
-          echo ""
-          echo "===== Registry ====="
-          npm config get registry
-          echo ""
-          echo "===== Scope registry ====="
-          npm config get @aledx18:registry
-
-      - name: Verify token exists
-        run: |
-          if [ -z "$NODE_AUTH_TOKEN" ]; then
-            echo "❌ NODE_AUTH_TOKEN está vacío"
-            exit 1
-          else
-            echo "✅ NODE_AUTH_TOKEN presente"
-          fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-
-      - name: Verify GitHub Packages login
-        run: npm whoami --registry=https://npm.pkg.github.com
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-
-      # --------------------------------------------------------
-
       - name: Publish core
         working-directory: packages/core
-        run: npm publish --registry=https://npm.pkg.github.com
+        run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

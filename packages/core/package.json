@@ -1,12 +1,12 @@
 {
   "name": "@aledx18/core",
-  "version": "0.0.11",
+  "version": "0.1.0",
   "description": "Lógica de negocio agnóstica de framework",
   "type": "module",
   "main": "./dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aledx18/ale-platform.git"
+    "url": "git+https://github.com/aledx18/ale-platform.git"
   },
   "types": "./dist/index.d.ts",
   "files": [
