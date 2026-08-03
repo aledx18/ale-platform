@@ -1,4 +1,9 @@
 {
   "files": [],
-  "references": [{ "path": "packages/core" }, { "path": "packages/auth" }, { "path": "apps/lab" }]
+  "references": [
+    { "path": "packages/core" },
+    { "path": "packages/auth" },
+    { "path": "packages/react" },
+    { "path": "apps/lab" }
+  ]
 }
