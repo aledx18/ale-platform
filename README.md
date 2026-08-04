@@ -1,6 +1,8 @@
 # authkit
 
-Sistema completo de autenticación modular y agnóstico de framework.
+Kit de autenticación React + Supabase: UI y wiring listos para empezar un proyecto en minutos.
+
+El consumidor trae su propio cliente `@supabase/supabase-js` y envuelve la app con `AuthProvider`.
 
 ## Setup local
 
@@ -11,7 +13,7 @@ bun install
 ## Comandos
 
 ```bash
-bun run build          # buildea todos los paquetes (core → auth)
+bun run build          # buildea packages/*
 bun run dev            # buildea y ejecuta lab
 bun run typecheck      # verifica tipos con tsc --build
 bun run lint           # revisa el código con Biome
@@ -19,14 +21,39 @@ bun run lint:fix       # corrige lo que se pueda automáticamente
 bun run format         # formatea todo el repo
 ```
 
+## Uso rápido
+
+```tsx
+import { createClient } from "@supabase/supabase-js";
+import {
+  AuthProvider,
+  RequireAuth,
+  SignIn,
+  UserButton,
+} from "@aledx18/supabase-auth";
+import "@aledx18/supabase-auth/styles.css";
+
+const supabase = createClient(url, anonKey);
+
+export function App() {
+  return (
+    <AuthProvider supabase={supabase}>
+      <RequireAuth fallback={<SignIn />}>
+        <UserButton />
+        {/* app protegida */}
+      </RequireAuth>
+    </AuthProvider>
+  );
+}
+```
+
 ## Estructura
 
 ```
 packages/
-  core/     # lógica de negocio pura, sin dependencias de framework
-  auth/     # módulo de autenticación (depende de core)
+  supabase-auth/   # @aledx18/supabase-auth
 apps/
-  lab/      # playground para testear módulos
+  lab/             # playground Vite (VITE_SUPABASE_URL + VITE_SUPABASE_ANON_KEY)
 ```
 
 Cada paquete nuevo dentro de `packages/` debe:
@@ -38,34 +65,17 @@ Cada paquete nuevo dentro de `packages/` debe:
 
 ## Usar un paquete dentro de este mismo repo
 
-Solo agregalo como dependencia normal en el `package.json` del paquete/app que
-lo necesita:
-
 ```json
 {
   "dependencies": {
-    "@aledx18/core": "workspace:*"
+    "@aledx18/supabase-auth": "workspace:*"
   }
 }
 ```
 
-Bun resuelve `workspace:*` con un symlink local, sin tocar la red.
+## Publicar a GitHub Packages
 
-## Publicar a GitHub Packages (para usar en otros repos)
-
-1. Generá un Personal Access Token (classic) con permisos `read:packages` y
-   `write:packages`.
-2. Exportalo como variable de entorno local:
-   ```bash
-   export GITHUB_TOKEN=tu_token
-   ```
-3. Para publicar manualmente un paquete:
-   ```bash
-   cd packages/core
-   npm publish
-   ```
-4. Para publicar automáticamente: creá un tag `v*` (ej. `v0.0.1`) y pusheálo.
-   El workflow `.github/workflows/publish.yml` se encarga del resto.
+El workflow `.github/workflows/publish.yml` corre en pushes a `main`: buildea `packages/*` y usa Changesets para abrir una release PR o publicar.
 
 ## Consumir desde otro repositorio
 
@@ -79,11 +89,5 @@ En el repo externo, agregá un `.npmrc`:
 Y luego:
 
 ```bash
-bun add @aledx18/core
+bun add @supabase/supabase-js @aledx18/supabase-auth
 ```
-
-## Pendiente / a decidir más adelante
-
-- [ ] `packages/ui` — decidir framework
-- [ ] `packages/db` — cliente de PostgreSQL compartido (Drizzle o Prisma)
-- [ ] `packages/admin` — panel de administración

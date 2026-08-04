@@ -2,7 +2,9 @@
 
 ## Workspace
 
-- This Bun monorepo contains `packages/core` (framework-agnostic logic), `packages/auth` (depends on core), and `apps/lab` (private playground depending on both). Keep dependencies flowing `core -> auth -> lab`.
+- This Bun monorepo targets a React + Supabase auth kit.
+- Publishable code lives under `packages/` (e.g. `@aledx18/supabase-auth`).
+- `apps/lab` is the private Vite playground.
 - Public package APIs are exported from each package's `src/index.ts`.
 - Internal dependencies use `"workspace:*"`.
 
@@ -18,8 +20,9 @@ bun run build
 bun run dev
 ```
 
-- `bun run build` builds `@aledx18/core`, `@aledx18/auth`, and `@aledx18/react`; `bun run dev` builds them and starts the Vite lab.
-- Focused commands: `bun run --filter='@aledx18/core' build`, `bun run --filter='@aledx18/core' typecheck`, and `bun run --filter='@aledx18/lab' start`.
+- `bun run build` builds all workspaces under `packages/*`.
+- `bun run dev` builds packages and starts the Vite lab.
+- Focused commands: `bun run --filter='@aledx18/supabase-auth' build`, `bun run --filter='@aledx18/lab' start`.
 - There is no test runner or automated test suite yet.
 - Biome is authoritative for linting and formatting. Use `bun run lint:fix` or `bun run format` only when intentionally applying automated edits.
 
