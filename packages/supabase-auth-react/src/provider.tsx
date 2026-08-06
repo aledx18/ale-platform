@@ -1,7 +1,7 @@
+import { getAuthErrorMessage } from "@aledx18/supabase-auth-core";
 import type { Session } from "@supabase/supabase-js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AuthContext } from "./context";
-import { getAuthErrorMessage } from "./errors";
 import type { AuthProviderProps, AuthResult } from "./types";
 
 function ok(): AuthResult {
