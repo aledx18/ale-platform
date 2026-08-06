@@ -7,7 +7,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@aledx18/supabase-auth": "workspace:*",
+    "@aledx18/supabase-auth-react": "workspace:*",
     "@supabase/supabase-js": "^2.57.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"

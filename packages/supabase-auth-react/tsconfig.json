@@ -7,5 +7,5 @@
     "rootDir": "./src"
   },
   "include": ["src/**/*"],
-  "references": [{ "path": "../../packages/supabase-auth-react" }]
+  "references": [{ "path": "../supabase-auth-core" }]
 }

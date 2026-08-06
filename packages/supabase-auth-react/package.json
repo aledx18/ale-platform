@@ -1,6 +1,6 @@
 {
-  "name": "@aledx18/supabase-auth",
-  "version": "0.2.0",
+  "name": "@aledx18/supabase-auth-react",
+  "version": "0.1.0",
   "description": "React auth kit for Supabase — provider, hooks, and ready-made UI",
   "type": "module",
   "main": "./dist/index.js",
@@ -18,7 +18,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aledx18/authkit.git",
-    "directory": "packages/supabase-auth"
+    "directory": "packages/supabase-auth-react"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
@@ -26,6 +26,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json && cp src/styles.css dist/styles.css",
     "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@aledx18/supabase-auth-core": "workspace:*"
   },
   "peerDependencies": {
     "@supabase/supabase-js": ">=2.0.0",

@@ -1,8 +1,11 @@
 # authkit
 
-Kit de autenticación React + Supabase: UI y wiring listos para empezar un proyecto en minutos.
+Kit de autenticación para Supabase con dos capas:
 
-El consumidor trae su propio cliente `@supabase/supabase-js` y envuelve la app con `AuthProvider`.
+- **`@aledx18/supabase-auth-core`**: capa JS pura, framework-agnostic (login, logout, signup). Funciona en Astro, Express, Hono, Vite SSR, vanilla JS.
+- **`@aledx18/supabase-auth-react`**: capa React con provider, hooks y componentes UI. Depende del core.
+
+El consumidor trae su propio cliente `@supabase/supabase-js` (peer dependency de ambos paquetes).
 
 ## Setup local
 
@@ -21,7 +24,7 @@ bun run lint:fix       # corrige lo que se pueda automáticamente
 bun run format         # formatea todo el repo
 ```
 
-## Uso rápido
+## Uso rápido (React)
 
 ```tsx
 import { createClient } from "@supabase/supabase-js";
@@ -30,8 +33,8 @@ import {
   RequireAuth,
   SignIn,
   UserButton,
-} from "@aledx18/supabase-auth";
-import "@aledx18/supabase-auth/styles.css";
+} from "@aledx18/supabase-auth-react";
+import "@aledx18/supabase-auth-react/styles.css";
 
 const supabase = createClient(url, anonKey);
 
@@ -47,13 +50,29 @@ export function App() {
 }
 ```
 
+## Uso rápido (JS puro / framework-agnostic)
+
+```ts
+import { createClient } from "@supabase/supabase-js";
+import { createAuthClient } from "@aledx18/supabase-auth-core";
+
+const supabase = createClient(url, anonKey);
+const auth = createAuthClient({ supabase });
+
+const { error } = await auth.login("user@example.com", "password");
+if (error) {
+  console.error(error);
+}
+```
+
 ## Estructura
 
 ```
 packages/
-  supabase-auth/   # @aledx18/supabase-auth
+  supabase-auth-core/    # @aledx18/supabase-auth-core (JS puro)
+  supabase-auth-react/   # @aledx18/supabase-auth-react (React)
 apps/
-  lab/             # playground Vite (VITE_SUPABASE_URL + VITE_SUPABASE_ANON_KEY)
+  lab/                   # playground Vite (VITE_SUPABASE_URL + VITE_SUPABASE_ANON_KEY)
 ```
 
 Cada paquete nuevo dentro de `packages/` debe:
@@ -68,7 +87,7 @@ Cada paquete nuevo dentro de `packages/` debe:
 ```json
 {
   "dependencies": {
-    "@aledx18/supabase-auth": "workspace:*"
+    "@aledx18/supabase-auth-react": "workspace:*"
   }
 }
 ```
@@ -89,5 +108,5 @@ En el repo externo, agregá un `.npmrc`:
 Y luego:
 
 ```bash
-bun add @supabase/supabase-js @aledx18/supabase-auth
+bun add @supabase/supabase-js @aledx18/supabase-auth-react
 ```

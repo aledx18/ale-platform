@@ -7,8 +7,8 @@ import {
   UpdatePassword,
   UserButton,
   useAuth,
-} from "@aledx18/supabase-auth";
-import "@aledx18/supabase-auth/styles.css";
+} from "@aledx18/supabase-auth-react";
+import "@aledx18/supabase-auth-react/styles.css";
 import { createClient } from "@supabase/supabase-js";
 import { useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
