@@ -110,3 +110,4 @@ Y luego:
 ```bash
 bun add @supabase/supabase-js @aledx18/supabase-auth-react
 ```
+
